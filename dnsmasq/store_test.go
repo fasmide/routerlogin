@@ -40,3 +40,12 @@ func TestMalformedLeasesFile(t *testing.T) {
 		t.Fatalf("found lease when using /etc/passwd as leases path")
 	}
 }
+
+func TestEntryNotFound(t *testing.T) {
+	store := Store{Path: "dnsmasq_test.leases"}
+
+	_, err := store.LeaseByIP("127.0.0.1")
+	if err == nil {
+		t.Fatalf("a lease for ip 127.0.0.1 was found, it should not")
+	}
+}

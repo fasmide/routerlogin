@@ -1,6 +1,7 @@
 package dnsmasq
 
 import (
+	"fmt"
 	"os"
 	"sync"
 	"time"
@@ -47,16 +48,19 @@ func (s *Store) ensure() error {
 }
 
 // LeaseByIP returns a single dnsmasq lease found by ip address
-func (s *Store) LeaseByIP(ip string) (Entry, error) {
+func (s *Store) LeaseByIP(ip string) (*Entry, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
 	// ensure we have recent data
 	err := s.ensure()
 	if err != nil {
-		return Entry{}, err
+		return nil, err
 	}
 
-	return s.db[ip], nil
+	if entry, found := s.db[ip]; found {
+		return &entry, nil
+	}
 
+	return nil, fmt.Errorf("no Entry with ip %s", ip)
 }
