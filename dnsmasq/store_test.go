@@ -1,6 +1,9 @@
 package dnsmasq
 
-import "testing"
+import (
+	"net"
+	"testing"
+)
 
 func TestIPLookup(t *testing.T) {
 	store := Store{Path: "dnsmasq_test.leases"}
@@ -47,5 +50,19 @@ func TestEntryNotFound(t *testing.T) {
 	_, err := store.LeaseByIP("127.0.0.1")
 	if err == nil {
 		t.Fatalf("a lease for ip 127.0.0.1 was found, it should not")
+	}
+}
+
+func TestAddresses(t *testing.T) {
+	store := Store{Path: "dnsmasq_test.leases"}
+
+	slice, err := store.Addresses()
+	if err != nil {
+		t.Fatalf("failed getting addresses")
+	}
+
+	match := net.ParseIP("192.168.1.132")
+	if !slice[14].Equal(match) {
+		t.Fatalf("item 15 did not match ip %s: was %s", match, slice[14])
 	}
 }
