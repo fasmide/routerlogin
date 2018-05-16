@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-// reader embedds io.ReadCloser and reads FlowUpdates from it
+// reader embedds io.Reader and reads FlowUpdates from it
 type reader struct {
-	io.ReadCloser
+	io.Reader
 	buffer *bufio.Reader
 }
 
 // NewReader returns a new reader
-func NewReader(in io.ReadCloser) *reader {
-	return &reader{ReadCloser: in, buffer: bufio.NewReader(in)}
+func NewReader(in io.Reader) *reader {
+	return &reader{Reader: in, buffer: bufio.NewReader(in)}
 }
 
 // Read reads the next FlowUpdate from its embedded reader

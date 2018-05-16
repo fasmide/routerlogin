@@ -60,7 +60,7 @@ func TestReader(t *testing.T) {
 		t.Fatalf("flow state did not have expexted value of nothing: was %s", flow.Flow.State)
 	}
 
-	err = reader.Close()
+	err = fd.Close()
 	if err != nil {
 		t.Fatalf("unable to close flow reader: %s", err)
 	}
