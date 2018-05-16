@@ -2,7 +2,6 @@ package conntrack
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"strconv"
 	"strings"
@@ -106,7 +105,6 @@ func ParseFlowLine(s string) (Flow, error) {
 	// but if it has a prefix of src= - move along
 	if !strings.HasPrefix(parts[index], "src=") {
 		flow.State = parts[index]
-		log.Printf(flow.State)
 		index++
 	}
 
