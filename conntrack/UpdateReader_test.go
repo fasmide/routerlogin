@@ -12,7 +12,7 @@ func TestReader(t *testing.T) {
 		t.Fatalf("unable to open test file: %s", err)
 	}
 
-	reader := NewReader(fd)
+	reader := NewUpdateReader(fd)
 
 	// we should now be able to read the first flow
 	flow, err := reader.Read()
