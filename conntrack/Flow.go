@@ -80,7 +80,7 @@ func ParseFlowLine(s string) (Flow, error) {
 
 		ttl, err := strconv.Atoi(parts[index])
 		if err != nil {
-			return flow, fmt.Errorf("Unable to parse ttl from conntrack: %s could not be parsed as integer: %s", parts[2], err)
+			return flow, fmt.Errorf("Unable to parse ttl from conntrack: %s could not be parsed as integer: %s", parts[index], err)
 		}
 		flow.TTL = ttl
 		index++
