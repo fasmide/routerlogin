@@ -16,4 +16,14 @@ func TestStateStore(t *testing.T) {
 	if len(a) == 0 {
 		t.Fatalf("statestore addresses had no results")
 	}
+	t.Logf("Found: %+v", a)
+
+	// lets look at some flows
+	flows, err := s.StatesByIP(a[0].String())
+	if err != nil {
+		t.Fatalf("statestore could not find a address it provided: %s", err)
+	}
+	if flows[0].State == "" {
+		t.Fatalf("first flow found, had no state: %+v", flows[0])
+	}
 }

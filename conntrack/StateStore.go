@@ -99,10 +99,12 @@ func (s *StateStore) Addresses() ([]net.IP, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
+	// our cache should be to date
 	err := s.ensure()
 	if err != nil {
 		return nil, err
 	}
+
 	res := make([]net.IP, len(s.db))
 	i := 0
 	for ip := range s.db {
@@ -110,4 +112,22 @@ func (s *StateStore) Addresses() ([]net.IP, error) {
 		i++
 	}
 	return res, nil
+}
+
+// StatesByIP returns all flows from a given ip
+func (s *StateStore) StatesByIP(ip string) ([]*Flow, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	// ensure the database is up to date
+	err := s.ensure()
+	if err != nil {
+		return nil, err
+	}
+
+	if flow, found := s.db[ip]; found {
+		return flow, nil
+	}
+
+	return nil, fmt.Errorf("no flows found")
 }
