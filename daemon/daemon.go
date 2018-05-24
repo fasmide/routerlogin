@@ -45,7 +45,7 @@ func (d *Daemon) addresses() []string {
 
 	for _, store := range d.stores {
 		wg.Add(1)
-		go func() {
+		go func(store Store) {
 			ips, err := store.Addresses()
 			if err != nil {
 				log.Printf("unable to get addresses from %T: %s", store, err)
@@ -55,7 +55,7 @@ func (d *Daemon) addresses() []string {
 				m.LoadOrStore(ip.String(), struct{}{})
 			}
 			wg.Done()
-		}()
+		}(store)
 	}
 
 	wg.Wait()
