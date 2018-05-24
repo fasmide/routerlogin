@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net"
 	"os/exec"
 	"sync"
@@ -90,6 +91,9 @@ func (s *StateStore) populate() error {
 	if err != nil {
 		return fmt.Errorf("conntrack error: %s: %s", err, stderr)
 	}
+
+	log.Printf("conntrack.StateStore: updated store with %d entrys", len(s.db))
+	s.lastPopulate = time.Now()
 
 	return nil
 }
