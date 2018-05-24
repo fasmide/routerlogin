@@ -44,6 +44,7 @@ func (d *Daemon) addresses() []string {
 	var wg sync.WaitGroup
 
 	for _, store := range d.stores {
+		wg.Add(1)
 		go func() {
 			ips, err := store.Addresses()
 			if err != nil {
@@ -55,7 +56,6 @@ func (d *Daemon) addresses() []string {
 			}
 			wg.Done()
 		}()
-		wg.Add(1)
 	}
 
 	wg.Wait()
