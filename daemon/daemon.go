@@ -26,14 +26,14 @@ func (d *Daemon) Accept(l net.Listener) error {
 			log.Fatal("accept error:", err)
 		}
 
-		go func() {
+		go func(c net.Conn) {
 			addresses := d.addresses()
 			for _, addr := range addresses {
-				fd.Write([]byte(fmt.Sprintf("Address: %s\n", addr)))
+				c.Write([]byte(fmt.Sprintf("Address: %s\n", addr)))
 			}
-			fd.Write([]byte("Bye\n"))
-			fd.Close()
-		}()
+			c.Write([]byte("Bye\n"))
+			c.Close()
+		}(fd)
 	}
 }
 
