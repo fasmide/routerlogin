@@ -10,6 +10,7 @@ import (
 // Store is the interface we expect from other packages store's
 type Store interface {
 	Addresses() ([]net.IP, error)
+	//	Data(net.IP) (map[string]string, error)
 }
 
 // Daemon accepts connections from a listener and outputs data when they connect
