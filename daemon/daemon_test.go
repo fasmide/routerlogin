@@ -12,8 +12,8 @@ import (
 
 type Teststore1 struct{}
 
-func (t *Teststore1) Data(i net.IP) (map[string]string, error) {
-	return make(map[string]string), nil
+func (t *Teststore1) Data(_ string) (map[string]string, error) {
+	return map[string]string{"something": "80"}, nil
 }
 func (t *Teststore1) Addresses() ([]net.IP, error) {
 	return []net.IP{
@@ -23,7 +23,7 @@ func (t *Teststore1) Addresses() ([]net.IP, error) {
 
 type Teststore2 struct{}
 
-func (t *Teststore2) Data(i net.IP) (map[string]string, error) {
+func (t *Teststore2) Data(_ string) (map[string]string, error) {
 	return make(map[string]string), nil
 }
 func (t *Teststore2) Addresses() ([]net.IP, error) {

@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"os/exec"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -116,6 +117,18 @@ func (s *StateStore) Addresses() ([]net.IP, error) {
 		i++
 	}
 	return res, nil
+}
+
+// Data will return stuff about an ip address that we find interestings
+func (s *StateStore) Data(ip string) (map[string]string, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+	err := s.ensure()
+	if err != nil {
+		return nil, err
+	}
+
+	return map[string]string{"nFlows": strconv.Itoa(len(s.db[ip]))}, nil
 }
 
 // StatesByIP returns all flows from a given ip
