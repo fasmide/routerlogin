@@ -70,6 +70,11 @@ func (s *StateStore) populate() error {
 			break // and let whatever comes next handle the error
 		}
 
+		// we dont need knowledge about non-natted flows
+		if !flow.NAT {
+			continue
+		}
+
 		// we always use the original direction source as our index
 		index := flow.Original.Layer3.Source.String()
 
@@ -119,7 +124,7 @@ func (s *StateStore) Addresses() ([]net.IP, error) {
 	return res, nil
 }
 
-// Data will return stuff about an ip address that we find interestings
+// Data will return stuff about an ip address that we find interesting
 func (s *StateStore) Data(ip string) (map[string]string, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
