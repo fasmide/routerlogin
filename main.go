@@ -8,6 +8,7 @@ import (
 
 	"github.com/fasmide/routerlogin/conntrack"
 	"github.com/fasmide/routerlogin/daemon"
+	"github.com/fasmide/routerlogin/dnsmasq"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 		panic(err)
 	}
 	d.AddStore(&conntrack.StateStore{})
+	d.AddStore(&dnsmasq.Store{Path: "/var/lib/misc/dnsmasq.leases"})
 
 	go func() {
 		c := make(chan os.Signal, 1)

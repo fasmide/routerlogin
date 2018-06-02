@@ -102,3 +102,17 @@ func (s *Store) Addresses() ([]net.IP, error) {
 	return res, nil
 
 }
+
+// Data returns interesting data about a ip address
+func (s *Store) Data(ip string) (map[string]string, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	err := s.ensure()
+	if err != nil {
+		return nil, err
+	}
+	hostname := "n/a"
+	hostname = s.db[ip].Hostname
+	return map[string]string{"hostname": hostname}, nil
+}
