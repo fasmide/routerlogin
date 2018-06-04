@@ -108,12 +108,11 @@ func TestAccept(t *testing.T) {
 }
 
 func TestDistinctAddresses(t *testing.T) {
-	daemon := Daemon{}
 
-	daemon.AddStore(&Teststore1{})
-	daemon.AddStore(&Teststore2{})
+	stores := []Store{&Teststore1{}, &Teststore2{}}
 
-	addresses := daemon.addresses()
+	c := Collector{Stores: stores}
+	addresses := c.addresses()
 
 	// length of addresses should be exactly 2
 	if len(addresses) != 2 {
