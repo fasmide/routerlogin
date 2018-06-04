@@ -13,6 +13,7 @@ type Store interface {
 	Data(string) (map[string]string, error)
 }
 
+// Collector collects from given stores
 type Collector struct {
 	// Stores are the stores we will be reading from
 	Stores []Store
@@ -22,6 +23,7 @@ type Collector struct {
 	Headers []string
 }
 
+// Collect is the actual collecting function
 func (c *Collector) Collect() error {
 
 	addresses := c.addresses()
